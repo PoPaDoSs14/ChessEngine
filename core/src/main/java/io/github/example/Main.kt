@@ -11,23 +11,31 @@ import com.badlogic.gdx.utils.Array
 class Main : ApplicationAdapter() {
     private lateinit var shapeRenderer: ShapeRenderer
     private val boardSize = 8
-    private val squareSize = 50 // Размер квадрата в пикселях
 
     override fun create() {
         shapeRenderer = ShapeRenderer()
     }
 
     override fun render() {
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1f)
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1f) // Устанавливаем цвет фона (белый)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
+        // Получаем размеры окна
+        val screenWidth = Gdx.graphics.width
+        val screenHeight = Gdx.graphics.height
+
+        // Вычисляем размер квадрата
+        val squareSize = Math.min(screenWidth, screenHeight) / boardSize
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
 
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
+                // Определяем цвет квадрата
                 val color = if ((row + col) % 2 == 0) Color.WHITE else Color.BLACK
                 shapeRenderer.setColor(color)
 
+                // Рисуем квадрат
                 shapeRenderer.rect(col * squareSize.toFloat(), row * squareSize.toFloat(), squareSize.toFloat(), squareSize.toFloat())
             }
         }
