@@ -31,8 +31,8 @@ class Main : ApplicationAdapter() {
 
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
-                // Определяем цвет квадрата
-                val color = if ((row + col) % 2 == 0) Color.WHITE else Color.BLACK
+                // Определяем цвет квадрата (бежевый и темно-коричневый)
+                val color = if ((row + col) % 2 == 0) Color(0.8f, 0.7f, 0.5f, 1f) else Color(0.4f, 0.2f, 0.1f, 1f)
                 shapeRenderer.setColor(color)
 
                 // Рисуем квадрат
