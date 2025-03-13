@@ -4,6 +4,8 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Array
 
@@ -11,9 +13,22 @@ import com.badlogic.gdx.utils.Array
 class Main : ApplicationAdapter() {
     private lateinit var shapeRenderer: ShapeRenderer
     private val boardSize = 8
+    private val pieces = Array(boardSize) { arrayOfNulls<ChessPiece>(boardSize) }
 
     override fun create() {
         shapeRenderer = ShapeRenderer()
+        initializePieces()
+    }
+
+    private fun initializePieces() {
+        val testTexture = Texture("libgdx.png")
+        val testSprite = Sprite(testTexture)
+        // Например, установка начальных фигур. Черные и белые пешки.
+        for (i in 0 until boardSize) {
+            pieces[1][i] = ChessPiece(0, Color.WHITE, testSprite, ChessPieceType.PAWN) // Черные пешки
+            pieces[6][i] = ChessPiece(0, Color.BLACK, testSprite, ChessPieceType.PAWN) // Белые пешки
+        }
+        // Добавить остальные фигуры (ладьи, кони, слоны, ферзи, короли) здесь...
     }
 
     override fun render() {
@@ -29,6 +44,7 @@ class Main : ApplicationAdapter() {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
 
+        // Рисуем шахматную доску
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
                 // Определяем цвет квадрата (бежевый и темно-коричневый)
@@ -40,6 +56,25 @@ class Main : ApplicationAdapter() {
             }
         }
 
+        shapeRenderer.end()
+
+        // Отображаем фигуры
+        drawPieces(squareSize)
+    }
+
+    private fun drawPieces(squareSize: Int) {
+        // Здесь можно отрисовывать фигуры. Для простоты будем рисовать кружки вместо реальных фигур.
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
+        for (row in 0 until boardSize) {
+            for (col in 0 until boardSize) {
+                pieces[row][col]?.let { piece ->
+                    shapeRenderer.setColor(piece.color)
+                    val x = (col * squareSize + squareSize / 2).toFloat()
+                    val y = (row * squareSize + squareSize / 2).toFloat()
+                    shapeRenderer.circle(x, y, squareSize / 4f)
+                }
+            }
+        }
         shapeRenderer.end()
     }
 
