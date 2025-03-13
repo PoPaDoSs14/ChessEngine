@@ -6,28 +6,42 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.Array
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 class Main : ApplicationAdapter() {
     private lateinit var shapeRenderer: ShapeRenderer
+    private lateinit var spriteBatch: SpriteBatch
     private val boardSize = 8
     private val pieces = Array(boardSize) { arrayOfNulls<ChessPiece>(boardSize) }
 
+    private lateinit var whitePawnTexture: Texture
+    private lateinit var blackPawnTexture: Texture
+    // Добавьте текстуры для других фигур.
+
     override fun create() {
         shapeRenderer = ShapeRenderer()
+        spriteBatch = SpriteBatch()
+        initializeTextures()
         initializePieces()
     }
 
+    private fun initializeTextures() {
+        // Загрузка текстур для фигур
+        whitePawnTexture = Texture("W_pawn.png")
+        blackPawnTexture = Texture("W_king.png") // поставь нормальную текстуру
+
+    }
+
     private fun initializePieces() {
-        val testTexture = Texture("libgdx.png")
-        val testSprite = Sprite(testTexture)
-        // Например, установка начальных фигур. Черные и белые пешки.
-        for (i in 0 until boardSize) {
-            pieces[1][i] = ChessPiece(0, Color.WHITE, testSprite, ChessPieceType.PAWN) // Черные пешки
-            pieces[6][i] = ChessPiece(0, Color.BLACK, testSprite, ChessPieceType.PAWN) // Белые пешки
-        }
+        pieces[1][0] = ChessPiece(0, Color.WHITE, Sprite(blackPawnTexture), ChessPieceType.PAWN) // Черные пешки
+        pieces[1][1] = ChessPiece(0, Color.WHITE, Sprite(blackPawnTexture), ChessPieceType.PAWN)
+        // Заполнить остальные черные пешки
+        pieces[6][0] = ChessPiece(0, Color.BLACK, Sprite(whitePawnTexture), ChessPieceType.PAWN) // Белые пешки
+        pieces[6][1] = ChessPiece(0, Color.BLACK, Sprite(whitePawnTexture), ChessPieceType.PAWN)
+
         // Добавить остальные фигуры (ладьи, кони, слоны, ферзи, короли) здесь...
     }
 
@@ -63,22 +77,24 @@ class Main : ApplicationAdapter() {
     }
 
     private fun drawPieces(squareSize: Int) {
-        // Здесь можно отрисовывать фигуры. Для простоты будем рисовать кружки вместо реальных фигур.
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
+        spriteBatch.begin()
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
                 pieces[row][col]?.let { piece ->
-                    shapeRenderer.setColor(piece.color)
-                    val x = (col * squareSize + squareSize / 2).toFloat()
-                    val y = (row * squareSize + squareSize / 2).toFloat()
-                    shapeRenderer.circle(x, y, squareSize / 4f)
+                    val x = (col * squareSize + squareSize / 2 - piece.sprite.width / 2).toFloat()
+                    val y = (row * squareSize + squareSize / 2 - piece.sprite.height / 2).toFloat()
+                    piece.sprite.setPosition(x, y)
+                    piece.sprite.draw(spriteBatch)
                 }
             }
         }
-        shapeRenderer.end()
+        spriteBatch.end()
     }
 
     override fun dispose() {
         shapeRenderer.dispose()
+        spriteBatch.dispose()
+        whitePawnTexture.dispose()
+        blackPawnTexture.dispose()
     }
 }
