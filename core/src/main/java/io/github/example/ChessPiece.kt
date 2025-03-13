@@ -6,7 +6,7 @@ data class ChessPiece(
     val chessId: Int,
     val color: Int,
     val chessSprite: Sprite,
-    val chessPieseType: ChessPieseType
+    val chessPieceType: ChessPieceType
 ): GameObject(
     chessId,
     chessSprite)

@@ -1,5 +1,5 @@
 package io.github.example
 
-enum class ChessPieseType {
+enum class ChessPieceType {
     PAWN, HORSE, KING, QUEEN, CASTLE,ELEPHANT
 }
