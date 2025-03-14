@@ -103,9 +103,13 @@ class Main : ApplicationAdapter() {
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
                 pieces[row][col]?.let { piece ->
-                    val x = (col * squareSize + squareSize / 2 - piece.sprite.width / 2).toFloat()
-                    val y = (row * squareSize + squareSize / 2 - piece.sprite.height / 2).toFloat()
+                    val x = (col * squareSize + (squareSize - piece.sprite.width) / 2).toFloat()
+                    val y = (row * squareSize + (squareSize - piece.sprite.height) / 2).toFloat()
+
+                    // Установка размера спрайта
+                    piece.sprite.setSize(squareSize * 0.8f, squareSize * 0.8f) // Устанавливаем размеры фигуры в 80% от размера квадрата
                     piece.sprite.setPosition(x, y)
+
                     piece.sprite.draw(spriteBatch)
                 }
             }
