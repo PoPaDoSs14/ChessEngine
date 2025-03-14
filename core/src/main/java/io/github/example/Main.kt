@@ -36,13 +36,35 @@ class Main : ApplicationAdapter() {
     }
 
     private fun initializePieces() {
-        pieces[1][0] = ChessPiece(0, Color.WHITE, Sprite(blackPawnTexture), ChessPieceType.PAWN) // Черные пешки
-        pieces[1][1] = ChessPiece(0, Color.WHITE, Sprite(blackPawnTexture), ChessPieceType.PAWN)
-        // Заполнить остальные черные пешки
-        pieces[6][0] = ChessPiece(0, Color.BLACK, Sprite(whitePawnTexture), ChessPieceType.PAWN) // Белые пешки
-        pieces[6][1] = ChessPiece(0, Color.BLACK, Sprite(whitePawnTexture), ChessPieceType.PAWN)
+        // Установка черных фигур
+        pieces[0][0] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE)
+        pieces[0][1] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE)
+        pieces[0][2] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT)
+        pieces[0][3] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_queen.png")), ChessPieceType.QUEEN)
+        pieces[0][4] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_king.png")), ChessPieceType.KING)
+        pieces[0][5] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT)
+        pieces[0][6] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE)
+        pieces[0][7] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE)
 
-        // Добавить остальные фигуры (ладьи, кони, слоны, ферзи, короли) здесь...
+        // Установка черных пешек
+        for (i in 0 until boardSize) {
+            pieces[1][i] = ChessPiece(0, Color.BLACK, Sprite(blackPawnTexture), ChessPieceType.PAWN) // Черные пешки
+        }
+
+        // Установка белых пешек
+        for (i in 0 until boardSize) {
+            pieces[6][i] = ChessPiece(0, Color.WHITE, Sprite(whitePawnTexture), ChessPieceType.PAWN) // Белые пешки
+        }
+
+        // Установка белых фигур
+        pieces[7][0] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE)
+        pieces[7][1] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE)
+        pieces[7][2] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT)
+        pieces[7][3] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_queen.png")), ChessPieceType.QUEEN)
+        pieces[7][4] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_king.png")), ChessPieceType.KING)
+        pieces[7][5] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT)
+        pieces[7][6] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE)
+        pieces[7][7] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE)
     }
 
     override fun render() {
