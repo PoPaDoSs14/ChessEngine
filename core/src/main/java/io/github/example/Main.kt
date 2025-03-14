@@ -31,7 +31,7 @@ class Main : ApplicationAdapter() {
     private fun initializeTextures() {
         // Загрузка текстур для фигур
         whitePawnTexture = Texture("W_pawn.png")
-        blackPawnTexture = Texture("W_king.png") // поставь нормальную текстуру
+        blackPawnTexture = Texture("B_pawn")
 
     }
 
