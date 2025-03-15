@@ -2,6 +2,7 @@ package io.github.example
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
@@ -81,36 +82,49 @@ class Main : ApplicationAdapter() {
         // Рисуем шахматную доску
         drawBoard(squareSize)
 
-        // Обработка ввода при нажатии
-        if (Gdx.input.justTouched()) {
+        // Обработка ввода при нажатии мыши
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             val touchX = Gdx.input.x
-            val touchY = screenHeight - Gdx.input.y // Изменение координат Y в зависимости от системы координат LibGDX
+            val touchY = screenHeight - Gdx.input.y // Переводим координаты Y в систему координат LibGDX
 
             val col = (touchX / squareSize).toInt()
             val row = (touchY / squareSize).toInt()
 
-            if (selectedPiece == null) {
-                // Выбор фигуры
-                selectedPiece = pieces[row][col]
-                if (selectedPiece != null) {
-                    selectedRow = row
-                    selectedCol = col
+            if (row in 0 until boardSize && col in 0 until boardSize) {
+                if (selectedPiece == null) { // Выбор фигуры
+                    selectedPiece = pieces[row][col]
+                    if (selectedPiece != null) {
+                        selectedRow = row
+                        selectedCol = col
+                    }
+                } else { // Перемещение фигуры
+                    val validMoves = selectedPiece!!.getValidMoves(selectedRow, selectedCol, pieces)
+                    if (validMoves.contains(Pair(row, col))) {
+                        pieces[row][col] = selectedPiece
+                        pieces[selectedRow][selectedCol] = null
+                    }
+                    selectedPiece = null // Сброс выбора
                 }
-            } else {
-                // Проверка на допустимость хода
-                val validMoves = selectedPiece!!.getValidMoves(selectedRow, selectedCol, pieces)
-                if (validMoves.contains(Pair(row, col))) {
-                    // Выполнение хода
-                    pieces[row][col] = selectedPiece
-                    pieces[selectedRow][selectedCol] = null
-                }
-                // Сброс выбора
-                selectedPiece = null
+            }
+        }
+
+        // Отображаем возможные ходы, если фигура выбрана
+        if (selectedPiece != null) {
+            val validMoves = selectedPiece!!.getValidMoves(selectedRow, selectedCol, pieces)
+            for (move in validMoves) {
+                drawCircleOnSquare(squareSize, move.first, move.second) // Рисуем кружок на допустимых клетках
             }
         }
 
         // Отображаем фигуры
         drawPieces(squareSize)
+    }
+
+    private fun drawCircleOnSquare(squareSize: Int, row: Int, col: Int) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
+        shapeRenderer.color = Color.BLACK
+        shapeRenderer.circle((col * squareSize + squareSize / 2).toFloat(), (row * squareSize + squareSize / 2).toFloat(), squareSize / 8f) // Кружок размером в 1/8 клетки
+        shapeRenderer.end()
     }
 
     private fun drawBoard(squareSize: Int) {
