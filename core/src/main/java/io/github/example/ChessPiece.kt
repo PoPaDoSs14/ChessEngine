@@ -8,11 +8,16 @@ data class ChessPiece(
     val chessId: Int,
     val color: Color,
     val chessSprite: Sprite,
-    val pieceType: ChessPieceType
+    val pieceType: ChessPieceType,
+    val moveStrategy: MoveStrategy
 ): GameObject(
     chessId,
     chessSprite)
 {
+
+    fun getValidMoves(row: Int, col: Int, board: Array<Array<ChessPiece?>>): List<Pair<Int, Int>> {
+        return moveStrategy.getValidMoves(row, col, board)
+    }
 
 
 }
