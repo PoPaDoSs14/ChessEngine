@@ -19,7 +19,10 @@ class Main : ApplicationAdapter() {
 
     private lateinit var whitePawnTexture: Texture
     private lateinit var blackPawnTexture: Texture
-    // Добавьте текстуры для других фигур.
+
+    private var selectedPiece: ChessPiece? = null
+    private var selectedRow = -1
+    private var selectedCol = -1
 
     override fun create() {
         shapeRenderer = ShapeRenderer()
@@ -37,65 +40,89 @@ class Main : ApplicationAdapter() {
 
     private fun initializePieces() {
         // Установка черных фигур
-        pieces[0][0] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE)
-        pieces[0][1] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE)
-        pieces[0][2] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT)
-        pieces[0][3] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_queen.png")), ChessPieceType.QUEEN)
-        pieces[0][4] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_king.png")), ChessPieceType.KING)
-        pieces[0][5] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT)
-        pieces[0][6] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE)
-        pieces[0][7] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE)
+        pieces[0][0] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE, PawnMoveStrategy())
+        pieces[0][1] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE, PawnMoveStrategy())
+        pieces[0][2] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT, PawnMoveStrategy())
+        pieces[0][3] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_queen.png")), ChessPieceType.QUEEN, PawnMoveStrategy())
+        pieces[0][4] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_king.png")), ChessPieceType.KING, PawnMoveStrategy())
+        pieces[0][5] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT, PawnMoveStrategy())
+        pieces[0][6] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE, PawnMoveStrategy())
+        pieces[0][7] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE, PawnMoveStrategy())
 
         // Установка черных пешек
         for (i in 0 until boardSize) {
-            pieces[1][i] = ChessPiece(0, Color.BLACK, Sprite(blackPawnTexture), ChessPieceType.PAWN) // Черные пешки
+            pieces[1][i] = ChessPiece(0, Color.BLACK, Sprite(blackPawnTexture), ChessPieceType.PAWN, PawnMoveStrategy()) // Черные пешки
         }
 
         // Установка белых пешек
         for (i in 0 until boardSize) {
-            pieces[6][i] = ChessPiece(0, Color.WHITE, Sprite(whitePawnTexture), ChessPieceType.PAWN) // Белые пешки
+            pieces[6][i] = ChessPiece(0, Color.WHITE, Sprite(whitePawnTexture), ChessPieceType.PAWN, PawnMoveStrategy()) // Белые пешки
         }
 
         // Установка белых фигур
-        pieces[7][0] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE)
-        pieces[7][1] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE)
-        pieces[7][2] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT)
-        pieces[7][3] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_queen.png")), ChessPieceType.QUEEN)
-        pieces[7][4] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_king.png")), ChessPieceType.KING)
-        pieces[7][5] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT)
-        pieces[7][6] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE)
-        pieces[7][7] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE)
+        pieces[7][0] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE, PawnMoveStrategy())
+        pieces[7][1] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE, PawnMoveStrategy())
+        pieces[7][2] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT, PawnMoveStrategy())
+        pieces[7][3] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_queen.png")), ChessPieceType.QUEEN, PawnMoveStrategy())
+        pieces[7][4] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_king.png")), ChessPieceType.KING, PawnMoveStrategy())
+        pieces[7][5] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT, PawnMoveStrategy())
+        pieces[7][6] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE, PawnMoveStrategy())
+        pieces[7][7] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE, PawnMoveStrategy())
     }
 
     override fun render() {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f) // Устанавливаем цвет фона (белый)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        // Получаем размеры окна
         val screenWidth = Gdx.graphics.width
         val screenHeight = Gdx.graphics.height
-
-        // Вычисляем размер квадрата
         val squareSize = Math.min(screenWidth, screenHeight) / boardSize
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
-
         // Рисуем шахматную доску
-        for (row in 0 until boardSize) {
-            for (col in 0 until boardSize) {
-                // Определяем цвет квадрата (бежевый и темно-коричневый)
-                val color = if ((row + col) % 2 == 0) Color(0.8f, 0.7f, 0.5f, 1f) else Color(0.4f, 0.2f, 0.1f, 1f)
-                shapeRenderer.setColor(color)
+        drawBoard(squareSize)
 
-                // Рисуем квадрат
-                shapeRenderer.rect(col * squareSize.toFloat(), row * squareSize.toFloat(), squareSize.toFloat(), squareSize.toFloat())
+        // Обработка ввода при нажатии
+        if (Gdx.input.justTouched()) {
+            val touchX = Gdx.input.x
+            val touchY = screenHeight - Gdx.input.y // Изменение координат Y в зависимости от системы координат LibGDX
+
+            val col = (touchX / squareSize).toInt()
+            val row = (touchY / squareSize).toInt()
+
+            if (selectedPiece == null) {
+                // Выбор фигуры
+                selectedPiece = pieces[row][col]
+                if (selectedPiece != null) {
+                    selectedRow = row
+                    selectedCol = col
+                }
+            } else {
+                // Проверка на допустимость хода
+                val validMoves = selectedPiece!!.getValidMoves(selectedRow, selectedCol, pieces)
+                if (validMoves.contains(Pair(row, col))) {
+                    // Выполнение хода
+                    pieces[row][col] = selectedPiece
+                    pieces[selectedRow][selectedCol] = null
+                }
+                // Сброс выбора
+                selectedPiece = null
             }
         }
 
-        shapeRenderer.end()
-
         // Отображаем фигуры
         drawPieces(squareSize)
+    }
+
+    private fun drawBoard(squareSize: Int) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
+        for (row in 0 until boardSize) {
+            for (col in 0 until boardSize) {
+                val color = if ((row + col) % 2 == 0) Color(0.8f, 0.7f, 0.5f, 1f) else Color(0.4f, 0.2f, 0.1f, 1f)
+                shapeRenderer.setColor(color)
+                shapeRenderer.rect(col * squareSize.toFloat(), row * squareSize.toFloat(), squareSize.toFloat(), squareSize.toFloat())
+            }
+        }
+        shapeRenderer.end()
     }
 
     private fun drawPieces(squareSize: Int) {
@@ -103,18 +130,35 @@ class Main : ApplicationAdapter() {
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
                 pieces[row][col]?.let { piece ->
-                    val x = (col * squareSize + (squareSize - piece.sprite.width) / 2).toFloat()
-                    val y = (row * squareSize + (squareSize - piece.sprite.height) / 2).toFloat()
+                    val x = (col * squareSize + (squareSize - piece.chessSprite.width) / 2).toFloat()
+                    val y = (row * squareSize + (squareSize - piece.chessSprite.height) / 2).toFloat()
 
-                    // Установка размера спрайта
-                    piece.sprite.setSize(squareSize * 0.8f, squareSize * 0.8f) // Устанавливаем размеры фигуры в 80% от размера квадрата
-                    piece.sprite.setPosition(x, y)
-
-                    piece.sprite.draw(spriteBatch)
+                    piece.chessSprite.setSize(squareSize * 0.8f, squareSize * 0.8f)
+                    piece.chessSprite.setPosition(x, y)
+                    piece.chessSprite.draw(spriteBatch)
                 }
             }
         }
         spriteBatch.end()
+
+        // Начинаем рисовать выделение после отрисовки всех фигур
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
+
+        for (row in 0 until boardSize) {
+            for (col in 0 until boardSize) {
+                pieces[row][col]?.let { piece ->
+                    // Выполняем выделение только для выбранной фигуры
+                    if (selectedPiece == piece) {
+                        val x = (col * squareSize + (squareSize - piece.chessSprite.width) / 2).toFloat()
+                        val y = (row * squareSize + (squareSize - piece.chessSprite.height) / 2).toFloat()
+
+                        shapeRenderer.color = Color.RED // Цвет выделения
+                        shapeRenderer.rect(x, y, squareSize * 0.8f, squareSize * 0.8f) // Рисуем рамку выделения
+                    }
+                }
+            }
+        }
+        shapeRenderer.end()
     }
 
     override fun dispose() {
