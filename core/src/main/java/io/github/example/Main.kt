@@ -61,14 +61,14 @@ class Main : ApplicationAdapter() {
         }
 
         // Установка белых фигур
-        pieces[7][0] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE, PawnMoveStrategy())
-        pieces[7][1] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE, PawnMoveStrategy())
-        pieces[7][2] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT, PawnMoveStrategy())
-        pieces[7][3] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_queen.png")), ChessPieceType.QUEEN, PawnMoveStrategy())
+        pieces[7][0] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_rook.png")), ChessPieceType.CASTLE, PawnMoveStrategy())
+        pieces[7][1] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_horse.png")), ChessPieceType.HORSE, PawnMoveStrategy())
+        pieces[7][2] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_elephant.png")), ChessPieceType.ELEPHANT, PawnMoveStrategy())
+        pieces[7][3] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_queen.png")), ChessPieceType.QUEEN, PawnMoveStrategy())
         pieces[7][4] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_king.png")), ChessPieceType.KING, PawnMoveStrategy())
-        pieces[7][5] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT, PawnMoveStrategy())
-        pieces[7][6] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE, PawnMoveStrategy())
-        pieces[7][7] = ChessPiece(0, Color.WHITE, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE, PawnMoveStrategy())
+        pieces[7][5] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_elephant.png")), ChessPieceType.ELEPHANT, PawnMoveStrategy())
+        pieces[7][6] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_horse.png")), ChessPieceType.HORSE, PawnMoveStrategy())
+        pieces[7][7] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_rook.png")), ChessPieceType.CASTLE, PawnMoveStrategy())
     }
 
     override fun render() {
