@@ -41,4 +41,20 @@ class ChessBot(val color: Color) {
             ChessPieceType.KING -> 0
         }
     }
+
+    private fun evaluateBoard(board: Array<Array<ChessPiece?>>): Int {
+        var score = 0
+        for (row in board) {
+            for (piece in row) {
+                if (piece != null) {
+                    score += when (piece.color) {
+                        color -> pieceValue(piece)
+                        opponentColor -> -pieceValue(piece)
+                        else -> {0}
+                    }
+                }
+            }
+        }
+        return score
+    }
 }
