@@ -30,4 +30,15 @@ class ChessBot(val color: Color) {
         }
         return moves
     }
+
+    private fun pieceValue(piece: ChessPiece): Int {
+        return when (piece.pieceType) {
+            ChessPieceType.PAWN -> 1
+            ChessPieceType.HORSE -> 3
+            ChessPieceType.ELEPHANT -> 3
+            ChessPieceType.CASTLE -> 5
+            ChessPieceType.QUEEN -> 9
+            ChessPieceType.KING -> 0
+        }
+    }
 }
