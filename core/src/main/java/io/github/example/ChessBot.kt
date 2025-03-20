@@ -8,8 +8,22 @@ class ChessBot(val color: Color) {
         get() = if(color == Color.WHITE) Color.WHITE else Color.BLACK
 
     fun getBestMove(board: Array<Array<ChessPiece?>>): Pair<Int, Int>? {
+        var bestMove: Pair<Int, Int>? = null
+        var bestValue = Int.MIN_VALUE
 
-        return null
+
+        for (move in getMovePieces(board)) {
+
+            val newBoard = makeMove(board, move, color)
+
+            val moveValue = evaluateBoard(newBoard)
+
+            if (moveValue > bestValue) {
+                bestValue = moveValue
+                bestMove = Pair(move.to.first, move.to.second)
+            }
+        }
+        return bestMove
 
     }
 
