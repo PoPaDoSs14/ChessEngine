@@ -8,7 +8,9 @@ class ChessBot(val color: Color) {
         get() = if(color == Color.WHITE) Color.WHITE else Color.BLACK
 
     fun getBestMove(board: Array<Array<ChessPiece?>>): Pair<Int, Int>? {
+
         return null
+
     }
 
 
@@ -23,7 +25,7 @@ class ChessBot(val color: Color) {
                     val validMoves = piece.getValidMoves(row, col, board)
 
                     for (move in validMoves) {
-                        moves.add(Move(move.first, move.second))
+                        moves.add(Move(Pair(row, col), move))
                     }
                 }
             }
@@ -56,5 +58,34 @@ class ChessBot(val color: Color) {
             }
         }
         return score
+    }
+
+    private fun makeMove(board: Array<Array<ChessPiece?>>, move: Move, color: Color): Array<Array<ChessPiece?>> {
+
+        val newBoard = board.map { it.clone() }.toTypedArray()
+
+        val fromRow = move.from.first
+        val fromCol = move.from.second
+        val toRow = move.to.first
+        val toCol = move.to.second
+
+        val piece = newBoard[fromRow][fromCol]
+        if (piece == null || piece.color != color) {
+            throw IllegalArgumentException("Нет фигуры для перемещения или цвет фигуры не совпадает.")
+        }
+
+        if (toRow !in 0..7 || toCol !in 0..7) {
+            throw IllegalArgumentException("Целевая позиция вне границ доски.")
+        }
+
+        val targetPiece = newBoard[toRow][toCol]
+        if (targetPiece != null && targetPiece.color == color) {
+            throw IllegalArgumentException("Нельзя переместить на позицию, занятую своей фигурой.")
+        }
+
+        newBoard[toRow][toCol] = piece
+        newBoard[fromRow][fromCol] = null
+
+        return newBoard
     }
 }
