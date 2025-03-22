@@ -25,6 +25,8 @@ class Main : ApplicationAdapter() {
     private var selectedRow = -1
     private var selectedCol = -1
 
+    private val chessBot = ChessBot(Color.WHITE)
+
     override fun create() {
         shapeRenderer = ShapeRenderer()
         spriteBatch = SpriteBatch()
@@ -150,6 +152,8 @@ class Main : ApplicationAdapter() {
                     piece.chessSprite.setSize(squareSize * 0.8f, squareSize * 0.8f)
                     piece.chessSprite.setPosition(x, y)
                     piece.chessSprite.draw(spriteBatch)
+
+                    println(chessBot.getBestMove(pieces))
                 }
             }
         }
