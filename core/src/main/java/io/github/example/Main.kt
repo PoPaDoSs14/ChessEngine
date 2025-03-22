@@ -26,6 +26,8 @@ class Main : ApplicationAdapter() {
     private var selectedCol = -1
 
     private val chessBot = ChessBot(Color.WHITE)
+    private var moveNowColor = Color.WHITE
+    private val playerColor = Color.BLACK
 
     override fun create() {
         shapeRenderer = ShapeRenderer()
@@ -84,6 +86,18 @@ class Main : ApplicationAdapter() {
         // Рисуем шахматную доску
         drawBoard(squareSize)
 
+        if (moveNowColor != playerColor) {
+            val bestMoveResult = chessBot.getBestMove(pieces)
+            if (bestMoveResult != null) {
+                val (bestMove, score) = bestMoveResult
+                // Выполняем лучший ход
+                pieces[bestMove.to.first][bestMove.to.second] = bestMove.piece
+                pieces[bestMove.from.first][bestMove.from.second] = null
+                // Смена цвета после хода
+                moveNowColor = if (moveNowColor == Color.WHITE) Color.BLACK else Color.WHITE
+            }
+        }
+
         // Обработка ввода при нажатии мыши
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             val touchX = Gdx.input.x
@@ -94,8 +108,9 @@ class Main : ApplicationAdapter() {
 
             if (row in 0 until boardSize && col in 0 until boardSize) {
                 if (selectedPiece == null) { // Выбор фигуры
-                    selectedPiece = pieces[row][col]
-                    if (selectedPiece != null) {
+                    val piece = pieces[row][col]
+                    if (piece != null && piece.color == playerColor) { // Проверяем цвет фигуры
+                        selectedPiece = piece
                         selectedRow = row
                         selectedCol = col
                     }
@@ -104,6 +119,8 @@ class Main : ApplicationAdapter() {
                     if (validMoves.contains(Pair(row, col))) {
                         pieces[row][col] = selectedPiece
                         pieces[selectedRow][selectedCol] = null
+                        // Смена цвета после хода
+                        moveNowColor = if (moveNowColor == Color.WHITE) Color.BLACK else Color.WHITE
                     }
                     selectedPiece = null // Сброс выбора
                 }
@@ -152,8 +169,6 @@ class Main : ApplicationAdapter() {
                     piece.chessSprite.setSize(squareSize * 0.8f, squareSize * 0.8f)
                     piece.chessSprite.setPosition(x, y)
                     piece.chessSprite.draw(spriteBatch)
-
-                    println(chessBot.getBestMove(pieces))
                 }
             }
         }
