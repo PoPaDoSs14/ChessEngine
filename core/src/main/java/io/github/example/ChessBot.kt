@@ -7,39 +7,34 @@ class ChessBot(val color: Color) {
     private val opponentColor: Color
         get() = if(color == Color.WHITE) Color.WHITE else Color.BLACK
 
-    fun getBestMove(board: Array<Array<ChessPiece?>>): Pair<Int, Int>? {
-        var bestMove: Pair<Int, Int>? = null
+    fun getBestMove(board: Array<Array<ChessPiece?>>): Pair<Move, Int>? {
+        var bestMove: Move? = null
         var bestValue = Int.MIN_VALUE
 
-
         for (move in getMovePieces(board)) {
-
             val newBoard = makeMove(board, move, color)
-
             val moveValue = evaluateBoard(newBoard)
 
             if (moveValue > bestValue) {
                 bestValue = moveValue
-                bestMove = Pair(move.to.first, move.to.second)
+                bestMove = move
             }
         }
-        return bestMove
-
+        return bestMove?.let { Pair(it, bestValue) }
     }
 
 
     private fun getMovePieces(board: Array<Array<ChessPiece?>>): List<Move> {
-
         val moves = mutableListOf<Move>()
 
         for (row in board.indices) {
             for (col in board[row].indices) {
                 val piece = board[row][col]
-                if (piece != null && piece.color == color){
+                if (piece != null && piece.color == color) {
                     val validMoves = piece.getValidMoves(row, col, board)
 
                     for (move in validMoves) {
-                        moves.add(Move(Pair(row, col), move))
+                        moves.add(Move(Pair(row, col), move, piece))
                     }
                 }
             }
