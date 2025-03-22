@@ -15,8 +15,12 @@ class ChessBot(val color: Color) {
             val newBoard = makeMove(board, move, color)
             val moveValue = evaluateBoard(newBoard)
 
-            if (moveValue > bestValue) {
-                bestValue = moveValue
+            val opponentBestMoveValue = getBestOpponentMoveValue(newBoard)
+
+            val adjustedValue = moveValue - opponentBestMoveValue
+
+            if (adjustedValue > bestValue) {
+                bestValue = adjustedValue
                 bestMove = move
             }
         }
@@ -84,6 +88,18 @@ class ChessBot(val color: Color) {
         }
 
         return score
+    }
+
+    private fun getBestOpponentMoveValue(board: Array<Array<ChessPiece?>>): Int {
+        var bestValue = Int.MIN_VALUE
+        for (move in getMovePieces(board)) {
+            val newBoard = makeMove(board, move, opponentColor)
+            val moveValue = evaluateBoard(newBoard)
+            if (moveValue > bestValue) {
+                bestValue = moveValue
+            }
+        }
+        return bestValue
     }
 
     private fun makeMove(board: Array<Array<ChessPiece?>>, move: Move, color: Color): Array<Array<ChessPiece?>> {
