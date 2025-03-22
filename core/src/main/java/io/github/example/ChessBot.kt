@@ -55,17 +55,34 @@ class ChessBot(val color: Color) {
 
     private fun evaluateBoard(board: Array<Array<ChessPiece?>>): Int {
         var score = 0
-        for (row in board) {
-            for (piece in row) {
+        for (row in board.indices) {
+            for (col in board[row].indices) {
+                val piece = board[row][col]
                 if (piece != null) {
                     score += when (piece.color) {
                         color -> pieceValue(piece)
                         opponentColor -> -pieceValue(piece)
-                        else -> {0}
+                        else -> 0
                     }
                 }
             }
         }
+
+        for (row in board.indices) {
+            for (col in board[row].indices) {
+                val piece = board[row][col]
+                if (piece != null && piece.color == color) {
+                    val validMoves = piece.getValidMoves(row, col, board)
+                    for (move in validMoves) {
+                        val targetPiece = board[move.first][move.second]
+                        if (targetPiece != null && targetPiece.color == opponentColor) {
+                            score += 10
+                        }
+                    }
+                }
+            }
+        }
+
         return score
     }
 
