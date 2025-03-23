@@ -109,7 +109,7 @@ class ChessBot(val color: Color) {
                     for (move in validMoves) {
                         val targetPiece = board[move.first][move.second]
                         if (targetPiece != null && targetPiece.color == opponentColor) {
-                            score += pieceValue(targetPiece)
+                            score += pieceValue(targetPiece, move.first)
                         }
                     }
                 }
@@ -143,7 +143,7 @@ class ChessBot(val color: Color) {
                     val opponentMoves = getMovePieces(board, opponentColor)
                     for (move in opponentMoves) {
                         if (move.to == Pair(row, col)) {
-                            threatScore -= pieceValue(piece)
+                            threatScore -= pieceValue(piece, row)
                         }
                     }
                 }
