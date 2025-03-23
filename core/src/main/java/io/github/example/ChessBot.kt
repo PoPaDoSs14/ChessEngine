@@ -98,14 +98,13 @@ class ChessBot(val color: Color) {
                     for (move in validMoves) {
                         val targetPiece = board[move.first][move.second]
                         if (targetPiece != null && targetPiece.color == opponentColor) {
-                            score += 10
+                            score += pieceValue(targetPiece)
                         }
                     }
                 }
             }
         }
 
-        // Оценка угроз
         score += evaluateThreats(board)
 
         return score
