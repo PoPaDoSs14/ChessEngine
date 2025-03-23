@@ -64,9 +64,19 @@ class ChessBot(val color: Color) {
         return moves
     }
 
-    private fun pieceValue(piece: ChessPiece): Int {
+    private fun pieceValue(piece: ChessPiece, row: Int): Int {
         return when (piece.pieceType) {
-            ChessPieceType.PAWN -> 1
+            ChessPieceType.PAWN -> {
+                when (row) {
+                    0, 1 -> 0
+                    2 -> 1
+                    3 -> 2
+                    4 -> 3
+                    5 -> 4
+                    6, 7 -> 5
+                    else -> 0
+                }
+            }
             ChessPieceType.HORSE -> 3
             ChessPieceType.ELEPHANT -> 3
             ChessPieceType.CASTLE -> 5
@@ -82,13 +92,14 @@ class ChessBot(val color: Color) {
                 val piece = board[row][col]
                 if (piece != null) {
                     score += when (piece.color) {
-                        color -> pieceValue(piece)
-                        opponentColor -> -pieceValue(piece)
+                        color -> pieceValue(piece, row)
+                        opponentColor -> -pieceValue(piece, row)
                         else -> 0
                     }
                 }
             }
         }
+
 
         for (row in board.indices) {
             for (col in board[row].indices) {
