@@ -15,7 +15,11 @@ class ChessBot(val color: Color) {
 
         for (move in getMovePieces(board)) {
             val newBoard = makeMove(board, move, color)
-            val moveValue = evaluateBoard(newBoard)
+            var moveValue = evaluateBoard(newBoard)
+
+            if (isCentralSquare(move.to)) {
+                moveValue += 5
+            }
 
             val opponentBestMoveValue = getBestOpponentMoveValue(newBoard)
 
@@ -34,6 +38,11 @@ class ChessBot(val color: Color) {
         bestMove?.let { previousMoves.add(it) }
 
         return bestMove?.let { Pair(it, bestValue) }
+    }
+
+    private fun isCentralSquare(square: Pair<Int, Int>): Boolean {
+        val (row, col) = square
+        return (row == 3 && col in 3..4) || (row == 4 && col in 3..4)
     }
 
 
