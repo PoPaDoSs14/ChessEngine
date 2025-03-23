@@ -13,7 +13,7 @@ class ChessBot(val color: Color) {
         var bestMove: Move? = null
         var bestValue = Int.MIN_VALUE
 
-        for (move in getMovePieces(board)) {
+        for (move in getMovePieces(board, color)) {
             val newBoard = makeMove(board, move, color)
             var moveValue = evaluateBoard(newBoard)
 
@@ -46,7 +46,7 @@ class ChessBot(val color: Color) {
     }
 
 
-    private fun getMovePieces(board: Array<Array<ChessPiece?>>): List<Move> {
+    private fun getMovePieces(board: Array<Array<ChessPiece?>>, color: Color): List<Move> {
         val moves = mutableListOf<Move>()
 
         for (row in board.indices) {
@@ -105,12 +105,35 @@ class ChessBot(val color: Color) {
             }
         }
 
+        // Оценка угроз
+        score += evaluateThreats(board)
+
         return score
+    }
+
+    private fun evaluateThreats(board: Array<Array<ChessPiece?>>): Int {
+        var threatScore = 0
+
+        for (row in board.indices) {
+            for (col in board[row].indices) {
+                val piece = board[row][col]
+                if (piece != null && piece.color == color) {
+                    val opponentMoves = getMovePieces(board, opponentColor)
+                    for (move in opponentMoves) {
+                        if (move.to == Pair(row, col)) {
+                            threatScore -= pieceValue(piece)
+                        }
+                    }
+                }
+            }
+        }
+
+        return threatScore
     }
 
     private fun getBestOpponentMoveValue(board: Array<Array<ChessPiece?>>): Int {
         var bestValue = Int.MIN_VALUE
-        for (move in getMovePieces(board)) {
+        for (move in getMovePieces(board, opponentColor)) {
             val newBoard = makeMove(board, move, opponentColor)
             val moveValue = evaluateBoard(newBoard)
             if (moveValue > bestValue) {
