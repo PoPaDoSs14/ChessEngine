@@ -9,39 +9,59 @@ class ChessBot(val color: Color) {
     private val opponentColor: Color
         get() = if(color == Color.WHITE) Color.WHITE else Color.BLACK
 
-    fun getBestMove(board: Array<Array<ChessPiece?>>): Pair<Move, Int>? {
+    fun getBestMove(board: Array<Array<ChessPiece?>>, depth: Int): Pair<Move, Int>? {
         var bestMove: Move? = null
         var bestValue = Int.MIN_VALUE
 
         for (move in getMovePieces(board, color)) {
             val newBoard = makeMove(board, move, color)
-            var moveValue = evaluateBoard(newBoard)
+            val moveValue = minimax(newBoard, depth - 1, Int.MIN_VALUE, Int.MAX_VALUE, false)
 
-            if (move.piece.pieceType != ChessPieceType.PAWN) {
-                moveValue += 5
-            }
-
-            if (isCentralSquare(move.to)) {
-                moveValue += 5
-            }
-
-            val opponentBestMoveValue = getBestOpponentMoveValue(newBoard)
-
-            var adjustedValue = moveValue - opponentBestMoveValue
-
-            if (previousMoves.contains(move)) {
-                adjustedValue -= 5
-            }
-
-            if (adjustedValue > bestValue) {
-                bestValue = adjustedValue
+            if (moveValue > bestValue) {
+                bestValue = moveValue
                 bestMove = move
             }
         }
 
-        bestMove?.let { previousMoves.add(it) }
-
         return bestMove?.let { Pair(it, bestValue) }
+    }
+
+    fun minimax(board: Array<Array<ChessPiece?>>, depth: Int, alpha: Int, beta: Int, isMaximizing: Boolean): Int {
+        if (depth == 0) {
+            return evaluateBoard(board)
+        }
+
+        if (isMaximizing) {
+            var maxEval = Int.MIN_VALUE
+            var currentAlpha = alpha
+
+            for (move in getMovePieces(board, color)) {
+                val newBoard = makeMove(board, move, color)
+                val eval = minimax(newBoard, depth - 1, currentAlpha, beta, false)
+                maxEval = maxOf(maxEval, eval)
+                currentAlpha = maxOf(currentAlpha, eval)
+
+                if (beta <= currentAlpha) {
+                    break
+                }
+            }
+            return maxEval
+        } else {
+            var minEval = Int.MAX_VALUE
+            var currentBeta = beta
+
+            for (move in getMovePieces(board, opponentColor)) {
+                val newBoard = makeMove(board, move, opponentColor)
+                val eval = minimax(newBoard, depth - 1, alpha, currentBeta, true)
+                minEval = minOf(minEval, eval)
+                currentBeta = minOf(currentBeta, eval)
+
+                if (currentBeta <= alpha) {
+                    break
+                }
+            }
+            return minEval
+        }
     }
 
     private fun isCentralSquare(square: Pair<Int, Int>): Boolean {

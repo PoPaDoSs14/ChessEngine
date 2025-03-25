@@ -87,7 +87,7 @@ class Main : ApplicationAdapter() {
         drawBoard(squareSize)
 
         if (moveNowColor != playerColor) {
-            val bestMoveResult = chessBot.getBestMove(pieces)
+            val bestMoveResult = chessBot.getBestMove(pieces, 3)
             if (bestMoveResult != null) {
                 val (bestMove, score) = bestMoveResult
                 // Выполняем лучший ход
