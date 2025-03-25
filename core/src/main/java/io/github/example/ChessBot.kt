@@ -77,10 +77,10 @@ class ChessBot(val color: Color) {
                     else -> 0
                 }
             }
-            ChessPieceType.HORSE -> 3
-            ChessPieceType.ELEPHANT -> 3
-            ChessPieceType.CASTLE -> 5
-            ChessPieceType.QUEEN -> 9
+            ChessPieceType.HORSE -> 4
+            ChessPieceType.ELEPHANT -> 4
+            ChessPieceType.CASTLE -> 6
+            ChessPieceType.QUEEN -> 10
             ChessPieceType.KING -> 0
         }
     }
