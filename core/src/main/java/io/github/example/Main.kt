@@ -29,6 +29,8 @@ class Main : ApplicationAdapter() {
     private var moveNowColor = Color.WHITE
     private val playerColor = Color.BLACK
 
+    private val depth = 3
+
     override fun create() {
         shapeRenderer = ShapeRenderer()
         spriteBatch = SpriteBatch()
@@ -87,7 +89,7 @@ class Main : ApplicationAdapter() {
         drawBoard(squareSize)
 
         if (moveNowColor != playerColor) {
-            val bestMoveResult = chessBot.getBestMove(pieces, 3)
+            val bestMoveResult = chessBot.getBestMove(pieces, depth)
             if (bestMoveResult != null) {
                 val (bestMove, score) = bestMoveResult
                 // Выполняем лучший ход
