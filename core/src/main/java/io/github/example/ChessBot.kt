@@ -17,6 +17,10 @@ class ChessBot(val color: Color) {
             val newBoard = makeMove(board, move, color)
             var moveValue = evaluateBoard(newBoard)
 
+            if (move.piece.pieceType != ChessPieceType.PAWN) {
+                moveValue += 5
+            }
+
             if (isCentralSquare(move.to)) {
                 moveValue += 5
             }
