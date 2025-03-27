@@ -25,6 +25,11 @@ class ChessBot(val color: Color) {
                 moveValue += 10
             }
 
+            val targetPiece = board[move.to.first][move.to.second]
+            if (targetPiece != null && targetPiece.color == opponentColor) {
+                moveValue += pieceValue(targetPiece, move.to.first)
+            }
+
             if (moveHistory.contains(move)) {
                 moveValue -= 10
             }
