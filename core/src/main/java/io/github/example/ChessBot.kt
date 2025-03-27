@@ -21,6 +21,10 @@ class ChessBot(val color: Color) {
                 return Pair(move, Int.MAX_VALUE)
             }
 
+            if (isCentralSquare(Pair(move.to.first, move.to.second))) {
+                moveValue += 10
+            }
+
             if (moveHistory.contains(move)) {
                 moveValue -= 10
             }
