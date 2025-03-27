@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Color
 
 class ChessBot(val color: Color) {
 
-    private val previousMoves = mutableSetOf<Move>()
-
     private val opponentColor: Color
         get() = if(color == Color.WHITE) Color.WHITE else Color.BLACK
 
@@ -18,6 +16,10 @@ class ChessBot(val color: Color) {
         for (move in getMovePieces(board, color)) {
             val newBoard = makeMove(board, move, color)
             var moveValue = minimax(newBoard, depth - 1, Int.MIN_VALUE, Int.MAX_VALUE, false)
+
+            if (isCheckmate(newBoard, opponentColor)) {
+                return Pair(move, Int.MAX_VALUE)
+            }
 
             if (moveHistory.contains(move)) {
                 moveValue -= 10
@@ -35,7 +37,7 @@ class ChessBot(val color: Color) {
     }
 
     fun minimax(board: Array<Array<ChessPiece?>>, depth: Int, alpha: Int, beta: Int, isMaximizing: Boolean): Int {
-        if (depth == 0) {
+        if (depth == 0 || isCheckmate(board, opponentColor) || isCheckmate(board, color)) {
             return evaluateBoard(board)
         }
 
@@ -70,6 +72,46 @@ class ChessBot(val color: Color) {
             }
             return minEval
         }
+    }
+
+    private fun isCheckmate(board: Array<Array<ChessPiece?>>, color: Color): Boolean {
+        val kingPosition = findKing(board, color)
+        if (kingPosition == null || !isInCheck(board, kingPosition, opponentColor)) {
+            return false
+        }
+
+        for (row in board.indices) {
+            for (col in board[row].indices) {
+                val piece = board[row][col]
+                if (piece != null && piece.color == color) {
+                    val validMoves = piece.getValidMoves(row, col, board)
+                    for (move in validMoves) {
+                        val newBoard = makeMove(board, Move(Pair(row, col), move, piece), color)
+                        if (!isInCheck(newBoard, kingPosition, opponentColor)) {
+                            return false
+                        }
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    private fun isInCheck(board: Array<Array<ChessPiece?>>, kingPosition: Pair<Int, Int>, attackerColor: Color): Boolean {
+        val opponentMoves = getMovePieces(board, attackerColor)
+        return opponentMoves.any { it.to == kingPosition }
+    }
+
+    private fun findKing(board: Array<Array<ChessPiece?>>, color: Color): Pair<Int, Int>? {
+        for (row in board.indices) {
+            for (col in board[row].indices) {
+                val piece = board[row][col]
+                if (piece?.pieceType == ChessPieceType.KING && piece.color == color) {
+                    return Pair(row, col)
+                }
+            }
+        }
+        return null
     }
 
     private fun isCentralSquare(square: Pair<Int, Int>): Boolean {
