@@ -210,6 +210,21 @@ class ChessBot(val color: Color) {
             }
         }
 
+        for (row in board.indices) {
+            for (col in board[row].indices) {
+                val piece = board[row][col]
+                if (piece != null && piece.color == color) {
+                    val validMoves = piece.getValidMoves(row, col, board)
+                    for (move in validMoves) {
+                        val targetPiece = board[move.first][move.second]
+                        if (targetPiece != null && targetPiece.color == opponentColor) {
+                            score += pieceValue(targetPiece, move.first)
+                        }
+                    }
+                }
+            }
+        }
+
         score += evaluateThreats(board)
 
         return score
