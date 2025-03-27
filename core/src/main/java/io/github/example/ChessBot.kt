@@ -9,19 +9,27 @@ class ChessBot(val color: Color) {
     private val opponentColor: Color
         get() = if(color == Color.WHITE) Color.WHITE else Color.BLACK
 
+    val moveHistory = mutableListOf<Move>()
+
     fun getBestMove(board: Array<Array<ChessPiece?>>, depth: Int): Pair<Move, Int>? {
         var bestMove: Move? = null
         var bestValue = Int.MIN_VALUE
 
         for (move in getMovePieces(board, color)) {
             val newBoard = makeMove(board, move, color)
-            val moveValue = minimax(newBoard, depth - 1, Int.MIN_VALUE, Int.MAX_VALUE, false)
+            var moveValue = minimax(newBoard, depth - 1, Int.MIN_VALUE, Int.MAX_VALUE, false)
+
+            if (moveHistory.contains(move)) {
+                moveValue -= 10
+            }
 
             if (moveValue > bestValue) {
                 bestValue = moveValue
                 bestMove = move
             }
         }
+
+        bestMove?.let { moveHistory.add(it) }
 
         return bestMove?.let { Pair(it, bestValue) }
     }
