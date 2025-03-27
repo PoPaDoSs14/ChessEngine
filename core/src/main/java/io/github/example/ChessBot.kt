@@ -83,7 +83,7 @@ class ChessBot(val color: Color) {
         }
     }
 
-    private fun isCheckmate(board: Array<Array<ChessPiece?>>, color: Color): Boolean {
+    fun isCheckmate(board: Array<Array<ChessPiece?>>, color: Color): Boolean {
         val kingPosition = findKing(board, color)
         if (kingPosition == null || !isInCheck(board, kingPosition, opponentColor)) {
             return false

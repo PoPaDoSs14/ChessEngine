@@ -16,7 +16,7 @@ class Main : ApplicationAdapter() {
     private lateinit var shapeRenderer: ShapeRenderer
     private lateinit var spriteBatch: SpriteBatch
     private val boardSize = 8
-    private val pieces = Array(boardSize) { arrayOfNulls<ChessPiece>(boardSize) }
+    private var pieces = Array(boardSize) { arrayOfNulls<ChessPiece>(boardSize) }
 
     private lateinit var whitePawnTexture: Texture
     private lateinit var blackPawnTexture: Texture
@@ -28,6 +28,7 @@ class Main : ApplicationAdapter() {
     private val chessBot = ChessBot(Color.WHITE)
     private var moveNowColor = Color.WHITE
     private val playerColor = Color.BLACK
+    private val botColor = Color.WHITE
 
     private val depth = 3
 
@@ -87,6 +88,10 @@ class Main : ApplicationAdapter() {
 
         // Рисуем шахматную доску
         drawBoard(squareSize)
+
+        if (chessBot.isCheckmate(pieces, playerColor) || chessBot.isCheckmate(pieces, botColor)){
+            resetGame()
+        }
 
         if (moveNowColor != playerColor) {
             val bestMoveResult = chessBot.getBestMove(pieces, depth)
@@ -158,6 +163,16 @@ class Main : ApplicationAdapter() {
             }
         }
         shapeRenderer.end()
+    }
+
+    private fun resetGame() {
+        pieces = Array(boardSize) { arrayOfNulls<ChessPiece>(boardSize) }
+        moveNowColor = playerColor
+        selectedPiece = null
+        selectedRow = -1
+        selectedCol = -1
+
+        initializePieces()
     }
 
     private fun drawPieces(squareSize: Int) {
