@@ -40,6 +40,12 @@ class ChessBot(val color: Color) {
             }
         }
 
+        for (move in getMovePieces(board, color)) {
+            if (canCaptureKing(move.to.first, move.to.second, board, opponentColor)) {
+                return Pair(move, 1000)
+            }
+        }
+
         bestMove?.let { moveHistory.add(it) }
 
         return bestMove?.let { Pair(it, bestValue) }
