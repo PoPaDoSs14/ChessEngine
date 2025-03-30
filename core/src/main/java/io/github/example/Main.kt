@@ -89,6 +89,11 @@ class Main : ApplicationAdapter() {
         // Рисуем шахматную доску
         drawBoard(squareSize)
 
+        // Проверяем наличие королей
+        if (!isKingPresent(Color.WHITE) || !isKingPresent(Color.BLACK)) {
+            resetGame() // Сброс игры, если король отсутствует
+            return
+        }
 
         if (moveNowColor != playerColor) {
             val bestMoveResult = chessBot.getBestMove(pieces, depth)
