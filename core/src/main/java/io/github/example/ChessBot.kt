@@ -45,11 +45,6 @@ class ChessBot(val color: Color) {
         return bestMove?.let { Pair(it, bestValue) }
     }
 
-    fun canCaptureKing(row: Int, col: Int, board: Array<Array<ChessPiece?>>, enemyColor: Color): Boolean {
-        val piece = board[row][col]
-        return piece?.pieceType == ChessPieceType.KING && piece.color == enemyColor
-    }
-
     fun minimax(board: Array<Array<ChessPiece?>>, depth: Int, alpha: Int, beta: Int, isMaximizing: Boolean): Int {
         if (depth == 0 || isCheckmate(board, opponentColor) || isCheckmate(board, color)) {
             return evaluateBoard(board)
