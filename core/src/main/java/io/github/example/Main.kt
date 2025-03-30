@@ -89,9 +89,6 @@ class Main : ApplicationAdapter() {
         // Рисуем шахматную доску
         drawBoard(squareSize)
 
-        if (chessBot.isCheckmate(pieces, playerColor) || chessBot.isCheckmate(pieces, botColor)){
-            resetGame()
-        }
 
         if (moveNowColor != playerColor) {
             val bestMoveResult = chessBot.getBestMove(pieces, depth)
@@ -144,6 +141,18 @@ class Main : ApplicationAdapter() {
 
         // Отображаем фигуры
         drawPieces(squareSize)
+    }
+
+    private fun isKingPresent(color: Color): Boolean {
+        for (row in 0 until boardSize) {
+            for (col in 0 until boardSize) {
+                val piece = pieces[row][col]
+                if (piece?.pieceType == ChessPieceType.KING && piece?.color == color) {
+                    return true // Король найден
+                }
+            }
+        }
+        return false // Король не найден
     }
 
     private fun drawCircleOnSquare(squareSize: Int, row: Int, col: Int) {
