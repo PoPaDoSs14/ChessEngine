@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color
 class ChessBot(val color: Color) {
 
     private val opponentColor: Color
-        get() = if(color == Color.WHITE) Color.WHITE else Color.BLACK
+        get() = if(color == Color.WHITE) Color.BLACK else Color.WHITE
 
     val moveHistory = mutableListOf<Move>()
 
@@ -37,12 +37,6 @@ class ChessBot(val color: Color) {
             if (moveValue > bestValue) {
                 bestValue = moveValue
                 bestMove = move
-            }
-        }
-
-        for (move in getMovePieces(board, color)) {
-            if (canCaptureKing(move.to.first, move.to.second, board, opponentColor)) {
-                return Pair(move, 1000)
             }
         }
 
