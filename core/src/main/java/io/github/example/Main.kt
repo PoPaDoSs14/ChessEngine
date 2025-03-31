@@ -194,8 +194,8 @@ class Main : ApplicationAdapter() {
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
                 pieces[row][col]?.let { piece ->
-                    val x = (col * squareSize + (squareSize - piece.chessSprite.width) / 2).toFloat()
-                    val y = (row * squareSize + (squareSize - piece.chessSprite.height) / 2).toFloat()
+                    val x = (col * squareSize + (squareSize - piece.chessSprite.width) / 2)
+                    val y = (row * squareSize + (squareSize - piece.chessSprite.height) / 2)
 
                     piece.chessSprite.setSize(squareSize * 0.8f, squareSize * 0.8f)
                     piece.chessSprite.setPosition(x, y)
