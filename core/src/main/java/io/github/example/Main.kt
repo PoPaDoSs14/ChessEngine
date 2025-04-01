@@ -25,11 +25,11 @@ class Main : ApplicationAdapter() {
     private var selectedRow = -1
     private var selectedCol = -1
 
-    private val chessBot = ChessBot(Color.WHITE)
     private var moveNowColor = Color.WHITE
     private val playerColor = Color.BLACK
     private val botColor = Color.WHITE
 
+    private val chessBot = ChessBot(botColor)
     private val depth = 3
 
     override fun create() {
