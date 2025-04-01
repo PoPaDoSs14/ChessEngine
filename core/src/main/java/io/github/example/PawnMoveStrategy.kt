@@ -15,7 +15,9 @@ class PawnMoveStrategy : MoveStrategy {
             moves.add(Pair(row + direction, col))
         }
 
-
+        if (board[row + direction][col] == null && firstMove <= 0) {
+            moves.add(Pair(row + direction + direction, col))
+        }
 
 
         return moves
