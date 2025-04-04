@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color
 
 class PawnMoveStrategy : MoveStrategy {
 
-    private var firstMove = true
+    val isFirstMove = true
 
     override fun getValidMoves(row: Int, col: Int, board: Array<Array<ChessPiece?>>): List<Pair<Int, Int>> {
         val moves = mutableListOf<Pair<Int, Int>>()
@@ -14,17 +14,27 @@ class PawnMoveStrategy : MoveStrategy {
             moves.add(Pair(row + direction, col))
         }
 
-        if (firstMove && isValidPosition(row + 2 * direction, col, board) && board[row + 2 * direction][col] == null) {
+        if (isFirstMove && isValidPosition(row + 2 * direction, col, board) && board[row + 2 * direction][col] == null) {
             if (board[row + direction][col] == null) {
                 moves.add(Pair(row + 2 * direction, col))
             }
         }
 
-        return moves
-    }
+        if (isValidPosition(row + direction, col - 1, board)) {
+            val targetPiece = board[row + direction][col - 1]
+            if (targetPiece != null && targetPiece.color != board[row][col]?.color) {
+                moves.add(Pair(row + direction, col - 1))
+            }
+        }
 
-    fun markFirstMoveDone() {
-        firstMove = false
+        if (isValidPosition(row + direction, col + 1, board)) {
+            val targetPiece = board[row + direction][col + 1]
+            if (targetPiece != null && targetPiece.color != board[row][col]?.color) {
+                moves.add(Pair(row + direction, col + 1))
+            }
+        }
+
+        return moves
     }
 
     private fun isValidPosition(row: Int, col: Int, board: Array<Array<ChessPiece?>>): Boolean {
