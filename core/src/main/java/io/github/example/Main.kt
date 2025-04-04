@@ -25,6 +25,11 @@ class Main : ApplicationAdapter() {
     private lateinit var whiteHorseTexture: Texture
     private lateinit var whiteQueenTexture: Texture
     private lateinit var whiteKingTexture: Texture
+    private lateinit var blackRookTexture: Texture
+    private lateinit var blackElephantTexture: Texture
+    private lateinit var blackHorseTexture: Texture
+    private lateinit var blackQueenTexture: Texture
+    private lateinit var blackKingTexture: Texture
 
     private var selectedPiece: ChessPiece? = null
     private var selectedRow = -1
@@ -53,6 +58,11 @@ class Main : ApplicationAdapter() {
         whiteHorseTexture = Texture("W_horse.png")
         whiteElephantTexture = Texture("W_elephant.png")
         whiteQueenTexture = Texture("W_queen.png")
+        blackKingTexture = Texture("B_king.png")
+        blackRookTexture = Texture("B_rook.png")
+        blackHorseTexture = Texture("B_horse.png")
+        blackElephantTexture = Texture("B_elephant.png")
+        blackQueenTexture = Texture("B_queen.png")
 
     }
 
