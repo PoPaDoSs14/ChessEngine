@@ -88,14 +88,14 @@ class Main : ApplicationAdapter() {
         }
 
         // Установка белых фигур
-        pieces[7][0] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_rook.png")), ChessPieceType.CASTLE, RookMoveStrategy())
-        pieces[7][1] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_horse.png")), ChessPieceType.HORSE, KnightMoveStrategy())
-        pieces[7][2] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_elephant.png")), ChessPieceType.ELEPHANT, ElephantMoveStrategy())
-        pieces[7][3] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_queen.png")), ChessPieceType.QUEEN, QueenMoveStrategy())
-        pieces[7][4] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_king.png")), ChessPieceType.KING, KingMoveStrategy())
-        pieces[7][5] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_elephant.png")), ChessPieceType.ELEPHANT, ElephantMoveStrategy())
-        pieces[7][6] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_horse.png")), ChessPieceType.HORSE, KnightMoveStrategy())
-        pieces[7][7] = ChessPiece(0, Color.WHITE, Sprite(Texture("W_rook.png")), ChessPieceType.CASTLE, RookMoveStrategy())
+        pieces[7][0] = ChessPiece(0, Color.WHITE, Sprite(whiteRookTexture), ChessPieceType.CASTLE, RookMoveStrategy())
+        pieces[7][1] = ChessPiece(0, Color.WHITE, Sprite(whiteHorseTexture), ChessPieceType.HORSE, KnightMoveStrategy())
+        pieces[7][2] = ChessPiece(0, Color.WHITE, Sprite(whiteElephantTexture), ChessPieceType.ELEPHANT, ElephantMoveStrategy())
+        pieces[7][3] = ChessPiece(0, Color.WHITE, Sprite(whiteQueenTexture), ChessPieceType.QUEEN, QueenMoveStrategy())
+        pieces[7][4] = ChessPiece(0, Color.WHITE, Sprite(whiteKingTexture), ChessPieceType.KING, KingMoveStrategy())
+        pieces[7][5] = ChessPiece(0, Color.WHITE, Sprite(whiteElephantTexture), ChessPieceType.ELEPHANT, ElephantMoveStrategy())
+        pieces[7][6] = ChessPiece(0, Color.WHITE, Sprite(whiteHorseTexture), ChessPieceType.HORSE, KnightMoveStrategy())
+        pieces[7][7] = ChessPiece(0, Color.WHITE, Sprite(whiteRookTexture), ChessPieceType.CASTLE, RookMoveStrategy())
     }
 
     override fun render() {
