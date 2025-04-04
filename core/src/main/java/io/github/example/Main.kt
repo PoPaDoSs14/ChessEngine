@@ -20,6 +20,11 @@ class Main : ApplicationAdapter() {
 
     private lateinit var whitePawnTexture: Texture
     private lateinit var blackPawnTexture: Texture
+    private lateinit var whiteRookTexture: Texture
+    private lateinit var whiteElephantTexture: Texture
+    private lateinit var whiteHorseTexture: Texture
+    private lateinit var whiteQueenTexture: Texture
+    private lateinit var whiteKingTexture: Texture
 
     private var selectedPiece: ChessPiece? = null
     private var selectedRow = -1
@@ -43,6 +48,11 @@ class Main : ApplicationAdapter() {
         // Загрузка текстур для фигур
         whitePawnTexture = Texture("W_pawn.png")
         blackPawnTexture = Texture("B_pawn.png")
+        whiteKingTexture = Texture("W_king.png")
+        whiteRookTexture = Texture("W_rook.png")
+        whiteHorseTexture = Texture("W_horse.png")
+        whiteElephantTexture = Texture("W_elephant.png")
+        whiteQueenTexture = Texture("W_queen.png")
 
     }
 
