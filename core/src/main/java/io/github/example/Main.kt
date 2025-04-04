@@ -68,14 +68,14 @@ class Main : ApplicationAdapter() {
 
     private fun initializePieces() {
         // Установка черных фигур
-        pieces[0][0] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE, RookMoveStrategy())
-        pieces[0][1] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE, KnightMoveStrategy())
-        pieces[0][2] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT, ElephantMoveStrategy())
-        pieces[0][3] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_queen.png")), ChessPieceType.QUEEN, QueenMoveStrategy())
-        pieces[0][4] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_king.png")), ChessPieceType.KING, KingMoveStrategy())
-        pieces[0][5] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_elephant.png")), ChessPieceType.ELEPHANT, ElephantMoveStrategy())
-        pieces[0][6] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_horse.png")), ChessPieceType.HORSE, KnightMoveStrategy())
-        pieces[0][7] = ChessPiece(0, Color.BLACK, Sprite(Texture("B_rook.png")), ChessPieceType.CASTLE, RookMoveStrategy())
+        pieces[0][0] = ChessPiece(0, Color.BLACK, Sprite(blackRookTexture), ChessPieceType.CASTLE, RookMoveStrategy())
+        pieces[0][1] = ChessPiece(0, Color.BLACK, Sprite(blackHorseTexture), ChessPieceType.HORSE, KnightMoveStrategy())
+        pieces[0][2] = ChessPiece(0, Color.BLACK, Sprite(blackElephantTexture), ChessPieceType.ELEPHANT, ElephantMoveStrategy())
+        pieces[0][3] = ChessPiece(0, Color.BLACK, Sprite(blackQueenTexture), ChessPieceType.QUEEN, QueenMoveStrategy())
+        pieces[0][4] = ChessPiece(0, Color.BLACK, Sprite(blackKingTexture), ChessPieceType.KING, KingMoveStrategy())
+        pieces[0][5] = ChessPiece(0, Color.BLACK, Sprite(blackElephantTexture), ChessPieceType.ELEPHANT, ElephantMoveStrategy())
+        pieces[0][6] = ChessPiece(0, Color.BLACK, Sprite(blackHorseTexture), ChessPieceType.HORSE, KnightMoveStrategy())
+        pieces[0][7] = ChessPiece(0, Color.BLACK, Sprite(blackRookTexture), ChessPieceType.CASTLE, RookMoveStrategy())
 
         // Установка черных пешек
         for (i in 0 until boardSize) {
