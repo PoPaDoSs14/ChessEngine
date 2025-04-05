@@ -10,9 +10,7 @@ data class ChessPiece(
     val chessSprite: Sprite,
     val pieceType: ChessPieceType,
     val moveStrategy: MoveStrategy
-): GameObject(
-    chessSprite)
-{
+) {
 
     fun getValidMoves(row: Int, col: Int, board: Array<Array<ChessPiece?>>): List<Pair<Int, Int>> {
         return moveStrategy.getValidMoves(row, col, board)
