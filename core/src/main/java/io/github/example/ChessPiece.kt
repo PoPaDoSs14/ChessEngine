@@ -11,7 +11,6 @@ data class ChessPiece(
     val pieceType: ChessPieceType,
     val moveStrategy: MoveStrategy
 ): GameObject(
-    chessId,
     chessSprite)
 {
 
