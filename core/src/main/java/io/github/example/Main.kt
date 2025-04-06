@@ -39,6 +39,10 @@ class Main : ApplicationAdapter() {
     private val playerColor = Color.BLACK
     private val botColor = Color.WHITE
 
+    private var timeSinceLastMove = 0f // Время с последнего хода
+    private val moveDelay = 3f // Задержка между ходами (в секундах)
+    private var currentBotColor = botColor // Цвет текущего бота
+
     private val chessBot = ChessBot(botColor)
     private val depth = 3
 
