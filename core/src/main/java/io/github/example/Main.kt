@@ -39,10 +39,16 @@ class Main : ApplicationAdapter() {
     private val playerColor = Color.BLACK
     private val botColor = Color.WHITE
 
+    private val botColor1 = Color.BLACK
+    private val botColor2 = Color.WHITE
+
     private var timeSinceLastMove = 0f // Время с последнего хода
     private val moveDelay = 3f // Задержка между ходами (в секундах)
-    private var currentBotColor = botColor // Цвет текущего бота
 
+    private val chessBot1 = ChessBot(botColor1)
+    private val chessBot2 = ChessBot(botColor2)
+
+    private var currentGameMode = GameMode.BOT_VS_BOT // Начинаем с режима "бот против бота"
     private val chessBot = ChessBot(botColor)
     private val depth = 3
 
