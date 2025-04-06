@@ -43,13 +43,12 @@ class Main : ApplicationAdapter() {
     private val botColor2 = Color.WHITE
 
     private var timeSinceLastMove = 0f // Время с последнего хода
-    private val moveDelay = 3f // Задержка между ходами (в секундах)
+    private val moveDelay = 0.5f // Задержка между ходами (в секундах)
 
     private val chessBot1 = ChessBot(botColor1)
     private val chessBot2 = ChessBot(botColor2)
 
-    private var currentGameMode = GameMode.BOT_VS_BOT // Начинаем с режима "бот против бота"
-    private val chessBot = ChessBot(botColor)
+    private var currentGameMode = GameMode.PLAYER_VS_BOT // Начинаем с режима "бот против бота"
     private val depth = 3
 
     override fun create() {
@@ -125,19 +124,57 @@ class Main : ApplicationAdapter() {
             return
         }
 
-        if (moveNowColor != playerColor) {
-            val bestMoveResult = chessBot.getBestMove(pieces, depth)
-            if (bestMoveResult != null) {
-                val (bestMove, score) = bestMoveResult
-                // Выполняем лучший ход
-                pieces[bestMove.to.first][bestMove.to.second] = bestMove.piece
-                pieces[bestMove.from.first][bestMove.from.second] = null
-                // Смена цвета после хода
-                moveNowColor = if (moveNowColor == Color.WHITE) Color.BLACK else Color.WHITE
+        timeSinceLastMove += Gdx.graphics.deltaTime // Увеличиваем время с последнего хода
+
+        when (currentGameMode) {
+            GameMode.BOT_VS_BOT -> {
+                if (timeSinceLastMove >= moveDelay) {
+                    if (moveNowColor == botColor1 || moveNowColor == botColor2) {
+                        val currentBot = if (moveNowColor == botColor1) chessBot1 else chessBot2
+                        val bestMoveResult = currentBot.getBestMove(pieces, depth)
+                        if (bestMoveResult != null) {
+                            val (bestMove, score) = bestMoveResult
+                            // Выполняем лучший ход
+                            pieces[bestMove.to.first][bestMove.to.second] = bestMove.piece
+                            pieces[bestMove.from.first][bestMove.from.second] = null
+                            // Смена цвета после хода
+                            moveNowColor = if (moveNowColor == Color.WHITE) Color.BLACK else Color.WHITE
+                        }
+                    }
+                    timeSinceLastMove = 0f // Сбрасываем таймер после хода
+                }
+            }
+            GameMode.PLAYER_VS_BOT -> {
+                if (Gdx.input.justTouched()) {
+                    // Логика для обработки ввода игрока и выполнения его хода.
+                    handlePlayerInput(screenHeight, squareSize)
+                } else if (timeSinceLastMove >= moveDelay && moveNowColor == botColor2) { // Если ход бота
+                    val bestMoveResult = chessBot2.getBestMove(pieces, depth)
+                    if (bestMoveResult != null) {
+                        val (bestMove, score) = bestMoveResult
+                        pieces[bestMove.to.first][bestMove.to.second] = bestMove.piece
+                        pieces[bestMove.from.first][bestMove.from.second] = null
+                        moveNowColor = Color.BLACK // Смена цвета после хода бота
+                    }
+                    timeSinceLastMove = 0f // Сбрасываем таймер после хода бота
+                }
             }
         }
 
-        // Обработка ввода при нажатии мыши
+
+        // Отображаем возможные ходы, если фигура выбрана
+        if (selectedPiece != null) {
+            val validMoves = selectedPiece!!.getValidMoves(selectedRow, selectedCol, pieces)
+            for (move in validMoves) {
+                drawCircleOnSquare(squareSize, move.first, move.second) // Рисуем кружок на допустимых клетках
+            }
+        }
+
+        // Отображаем фигуры
+        drawPieces(squareSize)
+    }
+
+    private fun handlePlayerInput(screenHeight: Int, squareSize: Int) {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             val touchX = Gdx.input.x
             val touchY = screenHeight - Gdx.input.y // Переводим координаты Y в систему координат LibGDX
@@ -165,17 +202,6 @@ class Main : ApplicationAdapter() {
                 }
             }
         }
-
-        // Отображаем возможные ходы, если фигура выбрана
-        if (selectedPiece != null) {
-            val validMoves = selectedPiece!!.getValidMoves(selectedRow, selectedCol, pieces)
-            for (move in validMoves) {
-                drawCircleOnSquare(squareSize, move.first, move.second) // Рисуем кружок на допустимых клетках
-            }
-        }
-
-        // Отображаем фигуры
-        drawPieces(squareSize)
     }
 
     private fun isKingPresent(color: Color): Boolean {
