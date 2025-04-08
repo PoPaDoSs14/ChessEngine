@@ -114,8 +114,14 @@ class Main : ApplicationAdapter() {
         val screenHeight = Gdx.graphics.height
         val squareSize = Math.min(screenWidth, screenHeight) / boardSize
 
+        // Вычисляем смещение для центрирования доски
+        val boardWidth = squareSize * boardSize
+        val boardHeight = squareSize * boardSize
+        val offsetX = (screenWidth - boardWidth) / 2
+        val offsetY = (screenHeight - boardHeight) / 2
+
         // Рисуем шахматную доску
-        drawBoard(squareSize)
+        drawBoard(squareSize, offsetX, offsetY)
 
         // Проверяем наличие королей
         if (!isKingPresent(Color.WHITE) || !isKingPresent(Color.BLACK)) {
@@ -221,13 +227,18 @@ class Main : ApplicationAdapter() {
         shapeRenderer.end()
     }
 
-    private fun drawBoard(squareSize: Int) {
+    private fun drawBoard(squareSize: Int, offsetX: Int, offsetY: Int) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
                 val color = if ((row + col) % 2 == 0) Color(0.8f, 0.7f, 0.5f, 1f) else Color(0.4f, 0.2f, 0.1f, 1f)
                 shapeRenderer.setColor(color)
-                shapeRenderer.rect(col * squareSize.toFloat(), (boardSize - row - 1) * squareSize.toFloat(), squareSize.toFloat(), squareSize.toFloat()) // Изменение Y-координаты для переворота
+                shapeRenderer.rect(
+                    offsetX + col * squareSize.toFloat(),
+                    offsetY + (boardSize - row - 1) * squareSize.toFloat(),
+                    squareSize.toFloat(),
+                    squareSize.toFloat()
+                )
             }
         }
         shapeRenderer.end()
