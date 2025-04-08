@@ -228,7 +228,7 @@ class Main : ApplicationAdapter() {
             for (col in 0 until boardSize) {
                 val color = if ((row + col) % 2 == 0) Color(0.8f, 0.7f, 0.5f, 1f) else Color(0.4f, 0.2f, 0.1f, 1f)
                 shapeRenderer.setColor(color)
-                shapeRenderer.rect(col * squareSize.toFloat(), row * squareSize.toFloat(), squareSize.toFloat(), squareSize.toFloat())
+                shapeRenderer.rect(col * squareSize.toFloat(), (boardSize - row - 1) * squareSize.toFloat(), squareSize.toFloat(), squareSize.toFloat()) // Изменение Y-координаты для переворота
             }
         }
         shapeRenderer.end()
