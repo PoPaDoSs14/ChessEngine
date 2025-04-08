@@ -180,7 +180,7 @@ class Main : ApplicationAdapter() {
             val touchY = screenHeight - Gdx.input.y // Переводим координаты Y в систему координат LibGDX
 
             val col = (touchX / squareSize).toInt()
-            val row = (touchY / squareSize).toInt()
+            val row = ((screenHeight - touchY) / squareSize).toInt() // Изменение Y-координаты для переворота
 
             if (row in 0 until boardSize && col in 0 until boardSize) {
                 if (selectedPiece == null) { // Выбор фигуры
@@ -195,8 +195,7 @@ class Main : ApplicationAdapter() {
                     if (validMoves.contains(Pair(row, col))) {
                         pieces[row][col] = selectedPiece
                         pieces[selectedRow][selectedCol] = null
-                        // Смена цвета после хода
-                        moveNowColor = if (moveNowColor == Color.WHITE) Color.BLACK else Color.WHITE
+                        moveNowColor = if (moveNowColor == Color.WHITE) Color.BLACK else Color.WHITE // Смена цвета после хода
                     }
                     selectedPiece = null // Сброс выбора
                 }
