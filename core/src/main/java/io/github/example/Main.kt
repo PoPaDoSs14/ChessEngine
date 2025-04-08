@@ -107,7 +107,7 @@ class Main : ApplicationAdapter() {
     }
 
     override fun render() {
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1f) // Устанавливаем цвет фона (белый)
+        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1f) // Устанавливаем цвет фона (темно-серый)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         val screenWidth = Gdx.graphics.width
