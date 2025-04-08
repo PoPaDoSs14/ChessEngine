@@ -176,7 +176,7 @@ class Main : ApplicationAdapter() {
         }
 
         // Отображаем фигуры
-        drawPieces(squareSize)
+        drawPieces(squareSize, offsetX, offsetY)
     }
 
     private fun handlePlayerInput(screenHeight: Int, squareSize: Int) {
@@ -254,13 +254,13 @@ class Main : ApplicationAdapter() {
         initializePieces()
     }
 
-    private fun drawPieces(squareSize: Int) {
+    private fun drawPieces(squareSize: Int, offsetX: Int, offsetY: Int) {
         spriteBatch.begin()
         for (row in 0 until boardSize) {
             for (col in 0 until boardSize) {
                 pieces[row][col]?.let { piece ->
-                    val x = (col * squareSize + (squareSize - piece.chessSprite.width) / 2)
-                    val y = (row * squareSize + (squareSize - piece.chessSprite.height) / 2)
+                    val x = offsetX + col * squareSize + (squareSize - piece.chessSprite.width) / 2
+                    val y = offsetY + row * squareSize + (squareSize - piece.chessSprite.height) / 2
 
                     piece.chessSprite.setSize(squareSize * 0.8f, squareSize * 0.8f)
                     piece.chessSprite.setPosition(x, y)
@@ -278,8 +278,8 @@ class Main : ApplicationAdapter() {
                 pieces[row][col]?.let { piece ->
                     // Выполняем выделение только для выбранной фигуры
                     if (selectedPiece == piece) {
-                        val x = (col * squareSize + (squareSize - piece.chessSprite.width) / 2).toFloat()
-                        val y = (row * squareSize + (squareSize - piece.chessSprite.height) / 2).toFloat()
+                        val x = offsetX + col * squareSize + (squareSize - piece.chessSprite.width) / 2.toFloat()
+                        val y = offsetY + row * squareSize + (squareSize - piece.chessSprite.height) / 2.toFloat()
 
                         shapeRenderer.color = Color.RED // Цвет выделения
                         shapeRenderer.rect(x, y, squareSize * 0.8f, squareSize * 0.8f) // Рисуем рамку выделения
