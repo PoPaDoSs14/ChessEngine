@@ -37,7 +37,6 @@ class Main : ApplicationAdapter() {
 
     private var moveNowColor = Color.WHITE
     private val playerColor = Color.BLACK
-    private val botColor = Color.WHITE
 
     private val botColor1 = Color.BLACK
     private val botColor2 = Color.WHITE
