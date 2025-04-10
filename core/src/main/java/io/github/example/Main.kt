@@ -198,7 +198,7 @@ class Main : ApplicationAdapter() {
     }
 
     private fun handlePlayerInput(screenHeight: Int, squareSize: Int) {
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+        if (Gdx.input.justTouched()) {
             val touchX = Gdx.input.x
             val touchY = screenHeight - Gdx.input.y // Переводим координаты Y в систему координат LibGDX
 
