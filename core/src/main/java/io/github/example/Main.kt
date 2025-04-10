@@ -30,6 +30,11 @@ class Main : ApplicationAdapter() {
     private lateinit var blackHorseTexture: Texture
     private lateinit var blackQueenTexture: Texture
     private lateinit var blackKingTexture: Texture
+    private lateinit var resetButtonTexture: Texture
+    private val buttonWidth = 100 // Ширина кнопки
+    private val buttonHeight = 50 // Высота кнопки
+    private var buttonX = 0 // X позиция кнопки
+    private var buttonY = 0 // Y позиция кнопки
 
     private var selectedPiece: ChessPiece? = null
     private var selectedRow = -1
@@ -55,6 +60,11 @@ class Main : ApplicationAdapter() {
         spriteBatch = SpriteBatch()
         initializeTextures()
         initializePieces()
+
+        resetButtonTexture = Texture("W_pawn.png")
+
+        buttonX = Gdx.graphics.width - buttonWidth - 10 // Отступ от правого края
+        buttonY = Gdx.graphics.height - buttonHeight - 10 // Отступ от верхнего края
     }
 
     private fun initializeTextures() {
@@ -123,6 +133,8 @@ class Main : ApplicationAdapter() {
         // Рисуем шахматную доску
         drawBoard(squareSize, offsetX, offsetY)
 
+        drawResetButton()
+
         // Проверяем наличие королей
         if (!isKingPresent(Color.WHITE) || !isKingPresent(Color.BLACK)) {
             resetGame() // Сброс игры, если король отсутствует
@@ -179,6 +191,12 @@ class Main : ApplicationAdapter() {
         drawPieces(squareSize, offsetX, offsetY)
     }
 
+    private fun drawResetButton() {
+        spriteBatch.begin()
+        spriteBatch.draw(resetButtonTexture, buttonX.toFloat(), buttonY.toFloat(), buttonWidth.toFloat(), buttonHeight.toFloat())
+        spriteBatch.end()
+    }
+
     private fun handlePlayerInput(screenHeight: Int, squareSize: Int) {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             val touchX = Gdx.input.x
@@ -186,6 +204,13 @@ class Main : ApplicationAdapter() {
 
             val col = (touchX / squareSize).toInt()
             val row = ((screenHeight - touchY) / squareSize).toInt() // Изменение Y-координаты для переворота
+
+
+            // Проверка нажатия на кнопку сброса игры
+            if (touchX in buttonX until (buttonX + buttonWidth) && touchY in (buttonY..(buttonY + buttonHeight))) {
+                resetGame() // Сброс игры при нажатии на кнопку
+                return
+            }
 
             if (row in 0 until boardSize && col in 0 until boardSize) {
                 if (selectedPiece == null) { // Выбор фигуры
