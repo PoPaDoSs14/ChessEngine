@@ -43,7 +43,7 @@ class Main : ApplicationAdapter() {
     private var moveNowColor = Color.WHITE
     private val playerColor = Color.BLACK
 
-    private val botColor1 = Color.BLACK
+    private val botColor1 = playerColor
     private val botColor2 = Color.WHITE
 
     private var timeSinceLastMove = 0f // Время с последнего хода
@@ -52,7 +52,7 @@ class Main : ApplicationAdapter() {
     private val chessBot1 = ChessBot(botColor1)
     private val chessBot2 = ChessBot(botColor2)
 
-    private var currentGameMode = GameMode.BOT_VS_BOT // Начинаем с режима "бот против бота"
+    private var currentGameMode = GameMode.PLAYER_VS_BOT // Начинаем с режима "бот против бота"
     private val depth = 3
 
     override fun create() {
@@ -129,6 +129,7 @@ class Main : ApplicationAdapter() {
         val boardHeight = squareSize * boardSize
         val offsetX = (screenWidth - boardWidth) / 2
         val offsetY = (screenHeight - boardHeight) / 2
+        println(selectedPiece)
 
         // Рисуем шахматную доску
         drawBoard(squareSize, offsetX, offsetY)
