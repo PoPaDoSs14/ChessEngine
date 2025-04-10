@@ -129,7 +129,7 @@ class Main : ApplicationAdapter() {
         val boardHeight = squareSize * boardSize
         val offsetX = (screenWidth - boardWidth) / 2
         val offsetY = (screenHeight - boardHeight) / 2
-        println(selectedPiece)
+
 
         // Рисуем шахматную доску
         drawBoard(squareSize, offsetX, offsetY)
