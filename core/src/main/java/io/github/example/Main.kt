@@ -52,7 +52,7 @@ class Main : ApplicationAdapter() {
     private val chessBot1 = ChessBot(botColor1)
     private val chessBot2 = ChessBot(botColor2)
 
-    private var currentGameMode = GameMode.BOT_VS_BOT// Начинаем с режима "бот против бота"
+    private var currentGameMode = GameMode.PLAYER_VS_BOT// Начинаем с режима "бот против бота"
     private val depth = 3
 
     override fun create() {
@@ -204,7 +204,7 @@ class Main : ApplicationAdapter() {
             val touchY = screenHeight - Gdx.input.y // Переводим координаты Y в систему координат LibGDX
 
             val col = (touchX / squareSize).toInt()
-            val row = ((screenHeight - touchY) / squareSize).toInt() // Изменение Y-координаты для переворота
+            val row = (touchY / squareSize).toInt()
 
 
             // Проверка нажатия на кнопку сброса игры
