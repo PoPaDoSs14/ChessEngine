@@ -52,7 +52,7 @@ class Main : ApplicationAdapter() {
     private val chessBot1 = ChessBot(botColor1)
     private val chessBot2 = ChessBot(botColor2)
 
-    private var currentGameMode = GameMode.PLAYER_VS_BOT // Начинаем с режима "бот против бота"
+    private var currentGameMode = GameMode.BOT_VS_BOT// Начинаем с режима "бот против бота"
     private val depth = 3
 
     override fun create() {
